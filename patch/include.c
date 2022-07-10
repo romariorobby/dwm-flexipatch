@@ -221,8 +221,6 @@
 #endif
 #if RENAMED_SCRATCHPADS_PATCH
 #include "renamed_scratchpads.c"
-#elif SCRATCHPADS_PATCH
-#include "scratchpad.c"
 #endif
 #if SCRATCHPAD_ALT_1_PATCH
 #include "scratchpad_alt_1.c"

@@ -33,11 +33,7 @@ pertagview(const Arg *arg)
 	if (arg->ui & TAGMASK) {
 		selmon->pertag->prevtag = selmon->pertag->curtag;
 		selmon->tagset[selmon->seltags] = arg->ui & TAGMASK;
-		#if SCRATCHPADS_PATCH && !RENAMED_SCRATCHPADS_PATCH
-		if (arg->ui == ~SPTAGMASK)
-		#else
 		if (arg->ui == ~0)
-		#endif // SCRATCHPADS_PATCH
 			selmon->pertag->curtag = 0;
 		else {
 			for (i = 0; !(arg->ui & 1 << i); i++) ;
