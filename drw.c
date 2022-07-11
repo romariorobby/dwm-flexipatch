@@ -70,11 +70,7 @@ utf8decode(const char *c, long *u, size_t clen)
 #endif // BAR_PANGO_PATCH
 
 Drw *
-#if BAR_ALPHA_PATCH
 drw_create(Display *dpy, int screen, Window root, unsigned int w, unsigned int h, Visual *visual, unsigned int depth, Colormap cmap)
-#else
-drw_create(Display *dpy, int screen, Window root, unsigned int w, unsigned int h)
-#endif // BAR_ALPHA_PATCH
 {
 	Drw *drw = ecalloc(1, sizeof(Drw));
 
@@ -84,7 +80,6 @@ drw_create(Display *dpy, int screen, Window root, unsigned int w, unsigned int h
 	drw->w = w;
 	drw->h = h;
 
-	#if BAR_ALPHA_PATCH
 	drw->visual = visual;
 	drw->depth = depth;
 	drw->cmap = cmap;
@@ -93,13 +88,6 @@ drw_create(Display *dpy, int screen, Window root, unsigned int w, unsigned int h
 	drw->picture = XRenderCreatePicture(dpy, drw->drawable, XRenderFindVisualFormat(dpy, visual), 0, NULL);
 	#endif // BAR_WINICON_PATCH
 	drw->gc = XCreateGC(dpy, drw->drawable, 0, NULL);
-	#else
-	drw->drawable = XCreatePixmap(dpy, root, w, h, DefaultDepth(dpy, screen));
-	#if BAR_WINICON_PATCH
-	drw->picture = XRenderCreatePicture(dpy, drw->drawable, XRenderFindVisualFormat(dpy, DefaultVisual(dpy, screen)), 0, NULL);
-	#endif // BAR_WINICON_PATCH
-	drw->gc = XCreateGC(dpy, root, 0, NULL);
-	#endif // BAR_ALPHA_PATCH
 	XSetLineAttributes(dpy, drw->gc, 1, LineSolid, CapButt, JoinMiter);
 
 	return drw;
@@ -119,17 +107,10 @@ drw_resize(Drw *drw, unsigned int w, unsigned int h)
 	#endif // BAR_WINICON_PATCH
 	if (drw->drawable)
 		XFreePixmap(drw->dpy, drw->drawable);
-	#if BAR_ALPHA_PATCH
 	drw->drawable = XCreatePixmap(drw->dpy, drw->root, w, h, drw->depth);
 	#if BAR_WINICON_PATCH
 	drw->picture = XRenderCreatePicture(drw->dpy, drw->drawable, XRenderFindVisualFormat(drw->dpy, drw->visual), 0, NULL);
 	#endif // BAR_WINICON_PATCH
-	#else // !BAR_ALPHA_PATCH
-	drw->drawable = XCreatePixmap(drw->dpy, drw->root, w, h, DefaultDepth(drw->dpy, drw->screen));
-	#if BAR_WINICON_PATCH
-	drw->picture = XRenderCreatePicture(drw->dpy, drw->drawable, XRenderFindVisualFormat(drw->dpy, DefaultVisual(drw->dpy, drw->screen)), 0, NULL);
-	#endif // BAR_WINICON_PATCH
-	#endif // BAR_ALPHA_PATCH
 }
 
 void
@@ -428,13 +409,7 @@ drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, unsigned int lp
 	} else {
 		XSetForeground(drw->dpy, drw->gc, drw->scheme[invert ? ColFg : ColBg].pixel);
 		XFillRectangle(drw->dpy, drw->drawable, drw->gc, x, y, w, h);
-		#if BAR_ALPHA_PATCH
 		d = XftDrawCreate(drw->dpy, drw->drawable, drw->visual, drw->cmap);
-		#else
-		d = XftDrawCreate(drw->dpy, drw->drawable,
-		                  DefaultVisual(drw->dpy, drw->screen),
-		                  DefaultColormap(drw->dpy, drw->screen));
-		#endif // BAR_ALPHA_PATCH
 		x += lpad;
 		w -= lpad;
 	}
@@ -501,13 +476,7 @@ drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, unsigned int lp
 	} else {
 		XSetForeground(drw->dpy, drw->gc, drw->scheme[invert ? ColFg : ColBg].pixel);
 		XFillRectangle(drw->dpy, drw->drawable, drw->gc, x, y, w, h);
-		#if BAR_ALPHA_PATCH
 		d = XftDrawCreate(drw->dpy, drw->drawable, drw->visual, drw->cmap);
-		#else
-		d = XftDrawCreate(drw->dpy, drw->drawable,
-		                  DefaultVisual(drw->dpy, drw->screen),
-		                  DefaultColormap(drw->dpy, drw->screen));
-		#endif // BAR_ALPHA_PATCH
 		x += lpad;
 		w -= lpad;
 	}

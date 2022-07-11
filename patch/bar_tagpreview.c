@@ -43,17 +43,11 @@ tagpreviewswitchtag(void)
 				#if BAR_ALPHA_PATCH
 				imlib_image_set_has_alpha(1);
 				imlib_context_set_blend(0);
-				imlib_context_set_visual(visual);
-				#else
-				imlib_context_set_visual(DefaultVisual(dpy, screen));
 				#endif // BAR_ALPHA_PATCH
+				imlib_context_set_visual(visual);
 				imlib_context_set_drawable(root);
 				imlib_copy_drawable_to_image(0, selmon->mx, selmon->my, selmon->mw ,selmon->mh, 0, 0, 1);
-				#if BAR_ALPHA_PATCH
 				selmon->tagmap[i] = XCreatePixmap(dpy, selmon->tagwin, selmon->mw / scalepreview, selmon->mh / scalepreview, depth);
-				#else
-				selmon->tagmap[i] = XCreatePixmap(dpy, selmon->tagwin, selmon->mw / scalepreview, selmon->mh / scalepreview, DefaultDepth(dpy, screen));
-				#endif // BAR_ALPHA_PATCH
 				imlib_context_set_drawable(selmon->tagmap[i]);
 				imlib_render_image_part_on_drawable_at_size(0, 0, selmon->mw, selmon->mh, 0, 0, selmon->mw / scalepreview, selmon->mh / scalepreview);
 				imlib_free_image();
@@ -80,14 +74,13 @@ updatepreview(void)
 	};
 	for (m = mons; m; m = m->next) {
 		m->tagwin = XCreateWindow(dpy, root, m->wx, m->bar->by + bh, m->mw / 4, m->mh / 4, 0,
-				#if BAR_ALPHA_PATCH
 				depth, CopyFromParent, visual,
-				CWOverrideRedirect|CWBackPixel|CWBorderPixel|CWColormap|CWEventMask, &wa
+				#if BAR_ALPHA_PATCH
+				CWOverrideRedirect|CWBackPixel|CWBorderPixel|CWColormap|CWEventMask,
 				#else
-				DefaultDepth(dpy, screen), CopyFromParent, DefaultVisual(dpy, screen),
 				CWOverrideRedirect|CWBackPixmap|CWEventMask, &wa
 				#endif // BAR_ALPHA_PATCH
-				);
+				&wa);
 		XDefineCursor(dpy, m->tagwin, cursor[CurNormal]->cursor);
 		XMapRaised(dpy, m->tagwin);
 		XUnmapWindow(dpy, m->tagwin);
