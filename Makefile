@@ -40,13 +40,13 @@ dwm-msg:
 endif
 
 clean:
-	rm -f dwm ${OBJ} dwm-${VERSION}.tar.gz
+	rm -f config.h patches.h dwm ${OBJ} dwm-${VERSION}.tar.gz
 	rm -f dwm-msg
 
 dist: clean
 	mkdir -p dwm-${VERSION}
 	cp -R LICENSE Makefile README config.def.h config.mk\
-		dwm.1 drw.h util.h ${SRC} dwm.png transient.c dwm-${VERSION}
+		dwm.1 drw.h util.h dwm.desktop ${SRC} dwm.png transient.c dwm-${VERSION}
 	tar -cf dwm-${VERSION}.tar dwm-${VERSION}
 	gzip dwm-${VERSION}.tar
 	rm -rf dwm-${VERSION}
@@ -63,15 +63,15 @@ ifdef YAJLLIBS
 	chmod 755 ${DESTDIR}${PREFIX}/bin/dwm-msg
 endif
 	mkdir -p ${DESTDIR}${MANPREFIX}/man1
-	sed "s/VERSION/${VERSION}/g" < dwm.1 > ${DESTDIR}${MANPREFIX}/man1/dwm.1
-	chmod 644 ${DESTDIR}${MANPREFIX}/man1/dwm.1
-	mkdir -p ${DESTDIR}${PREFIX}/share/xsession
-	cp -n dwm.desktop ${DESTDIR}${PREFIX}/share/xsession
-	chmod 644 ${DESTDIR}${PREFIX}/share/xsession/dwm.desktop
+	sed "s/VERSION/${VERSION}/g" < dwm.1 > ${DESTDIR}${MANPREFIX}/man1/dwmf.1
+	chmod 644 ${DESTDIR}${MANPREFIX}/man1/dwmf.1
+	mkdir -p ${DESTDIR}${XSPREFIX}/xsessions
+	cp -f dwm.desktop ${DESTDIR}${XSPREFIX}/xsessions/dwmf.desktop
+	chmod 644 ${DESTDIR}${XSPREFIX}/xsessions/dwmf.desktop
 
 uninstall:
-	rm -f ${DESTDIR}${PREFIX}/bin/dwm\
-		${DESTDIR}${MANPREFIX}/man1/dwm.1\
-		${DESTDIR}${PREFIX}/share/xsession/dwm.desktop
+	rm -f ${DESTDIR}${PREFIX}/bin/dwmf\
+		${DESTDIR}${MANPREFIX}/man1/dwmf.1\
+		${DESTDIR}${XSPREFIX}/xsessions/dwmf.desktop
 
 .PHONY: all options clean dist install uninstall
