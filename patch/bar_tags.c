@@ -25,6 +25,9 @@ draw_tags(Bar *bar, BarArg *a)
 	int invert;
 	int w, x = a->x;
 	unsigned int i, occ = 0, urg = 0;
+	#if MONOCLECOUNT_PATCH
+	unsigned int par = 0, curr = 0;
+	#endif // MONOCLECOUNT_PATCH
 	char *icon;
 	Client *c;
 	Monitor *m = bar->mon;
@@ -63,6 +66,17 @@ draw_tags(Bar *bar, BarArg *a)
 		#endif // BAR_UNDERLINETAGS_PATCH
 		x += w;
 	}
+
+	#if MONOCLECOUNT_PATCH
+	if (m->lt[m->sellt]->arrange == monocle) {
+		for (c = nexttiled(m->clients), par = 0, curr = 0; c; c = nexttiled(c->next), par++)
+			if (c == m->stack)
+				curr = par + 1;
+		if (!curr && par)
+			curr = 1;
+		snprintf(m->ltsymbol, sizeof m->ltsymbol, " [%d/%d]", curr, par);
+	}
+	#endif // MONOCLECOUNT_PATCH
 
 	return 1;
 }

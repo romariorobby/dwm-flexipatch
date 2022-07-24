@@ -27,6 +27,8 @@ Browsing patches? There is a [map of patches](https://coggle.it/diagram/X9IiSSM6
 
 2022-08-02 - Added the bidi patch
 
+2022-07-24 - Added monoclecount patch
+
 2022-07-05 - Added the tagpreview patch
 
 2022-07-04 - Added the shift-tools patch(es) with individual toggles
