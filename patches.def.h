@@ -765,6 +765,12 @@
  */
 #define MONOCLESYMBOL_PATCH 0
 
+/* display the total number of clients and the number of the currently activated client beside
+ * the symbol of the monocle layout, while the current release prints only the number of total clients
+ * within the symbols
+ */
+#define MONOCLECOUNT_PATCH 1
+
 /* Makes a window floating and 1/3rd the height and 1/3rd the width of the screen and is
  * positioned in either the center or one of the 8 cardinal directions depending on which
  * key is pressed.

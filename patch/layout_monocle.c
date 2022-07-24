@@ -8,7 +8,7 @@ monocle(Monitor *m)
 
 	getgaps(m, &oh, &ov, &ih, &iv, &n);
 
-	#if !MONOCLESYMBOL_PATCH
+	#if !MONOCLESYMBOL_PATCH || !MONOCLECOUNT_PATCH
 	if (n > 0) /* override layout symbol */
 		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
 	#endif // MONOCLESYMBOL_PATCH
@@ -24,7 +24,7 @@ monocle(Monitor *m)
 	#endif // MONOCLESYMBOL_PATCH
 	Client *c;
 
-	#if !MONOCLESYMBOL_PATCH
+	#if !MONOCLESYMBOL_PATCH || !MONOCLECOUNT_PATCH
 	for (c = m->clients; c; c = c->next)
 		if (ISVISIBLE(c))
 			n++;
