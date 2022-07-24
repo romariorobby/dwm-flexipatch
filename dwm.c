@@ -5202,8 +5202,10 @@ main(int argc, char *argv[])
 	cleanup();
 	XCloseDisplay(dpy);
 	#if RESTARTSIG_PATCH
-	if (restart)
+	if (restart) {
+		system("notify-send 'Restarting DWM'");
 		execvp(argv[0], argv);
+	}
 	#endif // RESTARTSIG_PATCH
 	return EXIT_SUCCESS;
 }
