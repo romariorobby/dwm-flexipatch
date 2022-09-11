@@ -40,25 +40,28 @@ dwm-msg:
 endif
 
 clean:
-	rm -f config.h patches.h dwm ${OBJ} dwm-${VERSION}.tar.gz
+	rm -f config.h patches.h dwm ${OBJ} dwmf-${VERSION}.tar.gz
 	rm -f dwm-msg
 
 dist: clean
 	mkdir -p dwm-${VERSION}
 	cp -R LICENSE Makefile README config.def.h config.mk\
 		dwm.1 drw.h util.h dwm.desktop ${SRC} dwm.png transient.c dwm-${VERSION}
-	tar -cf dwm-${VERSION}.tar dwm-${VERSION}
-	gzip dwm-${VERSION}.tar
+	tar -cf dwmf-${VERSION}.tar dwm-${VERSION}
+	gzip dwmf-${VERSION}.tar
 	rm -rf dwm-${VERSION}
+
+req:
+	./requirement.sh
 
 install: all
 	mkdir -p ${DESTDIR}${PREFIX}/bin
-	cp -f dwm ${DESTDIR}${PREFIX}/bin
+	cp -f dwm ${DESTDIR}${PREFIX}/bin/dwmf
 ifdef YAJLLIBS
 	cp -f dwm-msg ${DESTDIR}${PREFIX}/bin
 endif
-	#cp -f patch/dwmc ${DESTDIR}${PREFIX}/bin
-	chmod 755 ${DESTDIR}${PREFIX}/bin/dwm
+	cp -f patch/dwmc ${DESTDIR}${PREFIX}/bin
+	chmod 755 ${DESTDIR}${PREFIX}/bin/dwmf
 ifdef YAJLLIBS
 	chmod 755 ${DESTDIR}${PREFIX}/bin/dwm-msg
 endif
