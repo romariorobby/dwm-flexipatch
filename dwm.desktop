@@ -1,8 +1,8 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=Dwm
-Comment=Dynamic window manager
-Exec=dwm
+Name=DWMF
+Comment=Dynamic Windows Manager
+Exec=dwmf
 Icon=dwm
 Type=XSession
 keywords=wm;tiling
