@@ -921,6 +921,15 @@ static const Key on_empty_keys[] = {
 #if DEV_T440P
 #include <X11/XF86keysym.h>
 #endif
+
+#if EXTERNALKEY
+static const Key keys[] = {
+	// Leave here for not throwing error
+	{ MODKEY|ShiftMask|ControlMask|Mod1Mask|Mod3Mask,  XK_k,     spawn,                   SHCMD("killall sxhkd; notify-send 'sxhkd [dwmf]'; sxhkd -c ~/.config/sxhkd/sxhkdrc-dwmf &")},
+	{ MODKEY|ControlMask|Mod1Mask,  XK_Return,     spawn,                   { .v = termcmd } },
+	{ MODKEY,                       XK_Tab,        view,                    {0} },
+};
+#else
 static const Key keys[] = {
 	/* modifier                     key            function                argument */
 	#if KEYMODES_PATCH
@@ -1343,6 +1352,7 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_8,                                  7)
 	TAGKEYS(                        XK_9,                                  8)
 };
+#endif // EXTERNALKEY
 
 #if KEYMODES_PATCH
 #define LEADER  XK_space
