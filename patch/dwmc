@@ -68,6 +68,7 @@ case $# in
 		;;
 	viewex) ;&
 	toggleviewex) ;&
+	toggleesbar) ;&
 	tagallmon) ;&
 	tagswapmon) ;&
 	tagex) ;&

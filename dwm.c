@@ -710,6 +710,9 @@ static pid_t spawncmd(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
 static void togglebar(const Arg *arg);
+#if BAR_EXTRASTATUS_PATCH
+static void toggleesbar(const Arg *arg);
+#endif // BAR_EXTRASTATUS_PATCH
 static void togglefloating(const Arg *arg);
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
@@ -1865,7 +1868,11 @@ drawbars(void)
 void
 drawbarwin(Bar *bar)
 {
+	#if BAR_EXTRASTATUS_PATCH
+	if (!bar || !bar->win || bar->external || (hidebarmask & (1 << bar->idx)))
+	#else
 	if (!bar || !bar->win || bar->external)
+	#endif // BAR_EXTRASTATUS_PATCH
 		return;
 	int r, w, total_drawn = 0;
 	int rx, lx, rw, lw; // bar size, split between left and right if a center module is added
@@ -4109,6 +4116,31 @@ togglebar(const Arg *arg)
 	#endif // BAR_SYSTRAY_PATCH
 	arrange(selmon);
 }
+
+#if BAR_EXTRASTATUS_PATCH
+void
+toggleesbar(const Arg *arg)
+{
+	Monitor *m;
+	Bar *bar;
+	hidebarmask ^= (1 << arg->ui);
+	for (m = mons; m; m = m->next) {
+		for (bar = m->bar; bar; bar = bar->next) {
+			if (bar->idx == arg->ui) {
+				bar->showbar = 0;
+				updatebarpos(m);
+				XMoveResizeWindow(dpy, bar->win, bar->bx, bar->by, bar->bw, bar->bh);
+				#if BAR_SYSTRAY_PATCH
+				if (!bar->showbar && systray)
+					XMoveWindow(dpy, systray->win, -32000, -32000);
+				#endif // BAR_SYSTRAY_PATCH
+				arrange(bar->mon);
+			  break;
+			}
+		}
+	}
+}
+#endif // BAR_EXTRASTATUS_PATCH
 
 void
 togglefloating(const Arg *arg)

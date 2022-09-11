@@ -44,6 +44,9 @@ static const int showbar                 = 0;   /* 0 means no bar */
 static const int showbar                 = 1;   /* 0 means no bar */
 #endif // BAR_HOLDBAR_PATCH
 static const int topbar                  = 1;   /* 0 means bottom bar */
+#if BAR_EXTRASTATUS_PATCH
+static int hidebarmask = 0;
+#endif // BAR_EXTRASTATUS_PATCH
 #if TAB_PATCH
 /*  Display modes of the tab bar: never shown, always shown, shown only in  */
 /*  monocle mode in the presence of several windows.                        */
@@ -932,7 +935,12 @@ static const Key keys[] = {
 	{ MODKEY|ControlMask,           XK_Return,     riospawn,               {.v = termcmd } },
 	{ MODKEY,                       XK_s,          rioresize,              {0} },
 	#endif // RIODRAW_PATCH
+	#if BAR_EXTRASTATUS_PATCH
+	{ MODKEY,                       XK_b,          toggleesbar,            { .ui = 0} },
+	{ MODKEY|ShiftMask,             XK_b,          toggleesbar,            { .ui = 1} },
+	#else
 	{ MODKEY,                       XK_b,          togglebar,              {0} },
+	#endif // BAR_EXTRASTATUS_PATCH
 	#if TAB_PATCH
 	{ MODKEY|ControlMask,           XK_b,          tabmode,                {-1} },
 	#endif // TAB_PATCH
@@ -1460,6 +1468,9 @@ static const Signal signals[] = {
 	{ "focusstack",              focusstack },
 	{ "setmfact",                setmfact },
 	{ "togglebar",               togglebar },
+	#if BAR_EXTRASTATUS_PATCH
+	{ "toggleesbar",             toggleesbar },
+	#endif // BAR_EXTRASTATUS_PATCH
 	{ "incnmaster",              incnmaster },
 	{ "togglefloating",          togglefloating },
 	{ "focusmon",                focusmon },
@@ -1658,6 +1669,9 @@ static IPCCommand ipccommands[] = {
 	IPCCOMMAND( tag, 1, {ARG_TYPE_UINT} ),
 	IPCCOMMAND( tagmon, 1, {ARG_TYPE_UINT} ),
 	IPCCOMMAND( togglebar, 1, {ARG_TYPE_NONE} ),
+	#if BAR_EXTRASTATUS_PATCH
+	IPCCOMMAND( toggleesbar, 1, {ARG_TYPE_NONE} ),
+	#endif // BAR_EXTRASTATUS_PATCH
 	IPCCOMMAND( togglefloating, 1, {ARG_TYPE_NONE} ),
 	IPCCOMMAND( toggletag, 1, {ARG_TYPE_UINT} ),
 	IPCCOMMAND( toggleview, 1, {ARG_TYPE_UINT} ),
