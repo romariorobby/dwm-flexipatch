@@ -11,6 +11,8 @@
  */
 #define DEV_T440P 1
 #define THEME_GRUVBOX 1
+/* Disable Builtin keymap for use with external keymap like sxhkd */
+#define EXTERNALKEY 1
 /**
  * Bar modules
  */
@@ -588,7 +590,7 @@
  *    #cp -f patch/dwmc ${DESTDIR}${PREFIX}/bin
  * http://dwm.suckless.org/patches/dwmc/
  */
-#define DWMC_PATCH 0
+#define DWMC_PATCH EXTERNALKEY
 
 /* This patch allows no tag at all to be selected. The result is that dwm will start with
  * no tag selected and when you start a client with no tag rule and no tag selected then
