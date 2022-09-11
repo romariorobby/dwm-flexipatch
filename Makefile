@@ -31,6 +31,12 @@ config.h:
 patches.h:
 	cp patches.def.h $@
 
+list-patches-enabled:
+	@grep -r "^#define \w* 1" patches.def.h | cut -d' ' -f2 | sed 's/_PATCH//g'
+
+list-patches:
+	@grep -r "^#define \w*" patches.def.h | cut -d' ' -f2 | sed 's/_PATCH//g'
+
 dwm: ${OBJ}
 	${CC} -o $@ ${OBJ} ${LDFLAGS}
 
