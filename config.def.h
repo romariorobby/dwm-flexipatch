@@ -2,6 +2,8 @@
 
 #define TERM  "kitty"
 #define TERM_ALT  "st"
+#define TERMC_ALT  "St"
+#define BITWARDEN "bitwarden" // bitwarden-desktop
 
 /* appearance */
 #if ROUNDED_CORNERS_PATCH
@@ -423,7 +425,7 @@ const char *spcmd1[] = {TERM_ALT, "-n", "sptermalt", "-g", "120x34", NULL };
 const char *spcmd2[] = {TERM, "--name", "spterm", "--class", "spterm", NULL};
 const char *spcmd3[] = {"emacs", "--name", "spemacs", "-g", "100x30", NULL};
 const char *spcmd4[] = {TERM_ALT, "-n", "spspotify", "-c", "spspotify" "-e", "spotify", NULL};
-const char *spcmd5[] = {"bitwarden-desktop", NULL};
+const char *spcmd5[] = {BITWARDEN, NULL};
 static Sp scratchpads[] = {
    /* name          cmd  */
    {"sptermalt",   spcmd1},
@@ -515,22 +517,26 @@ static const Rule rules[] = {
 	RULE(.wintype = WTYPE "UTILITY", .isfloating = 1)
 	RULE(.wintype = WTYPE "TOOLBAR", .isfloating = 1)
 	RULE(.wintype = WTYPE "SPLASH", .isfloating = 1)
+	RULE(.title = "Event Tester", .iscentered = 1, .isfloating = 1, .isterminal = 0, .noswallow = 1)
+	RULE(.class = TERMC_ALT, .isterminal = 1)
+	RULE(.class = TERM, .isterminal = 1)
 	RULE(.class = "Gimp", .tags = 1 << 4)
 	RULE(.class = "Firefox", .tags = 1 << 7)
 	RULE(.class = "Brave-browser", .tags = 1 << 3)
-	RULE(.title = "Event Tester", .iscentered = 1, .isfloating = 1)
 	RULE(.role = "pop-up", .isfloating = 1, .iscentered = 1)
 	RULE(.instance = "sb-popupg", .isfloating = 1, .iscentered = 1)
+	RULE(.class = "nmtuifloat", .isfloating = 1, .iscentered = 1, .floatpos = "0x 0y 700W 700H")
+	RULE(.class = "Dragon", .isfloating = 1, .iscentered = 1, .isterminal = 1, .noswallow = 1)
 	RULE(.title = "Picture in picture", .isfloating = 1, .iscentered = 1) /* Spicetify - Popuplyrics */
+	RULE(.instance = "mpvfloat", .isfloating = 1, .iscentered = 1, .isterminal = 1, .noswallow = 1) /* Use by dmenuhandler - mpv float */
 	#if RENAMED_SCRATCHPADS_PATCH
 	RULE(.instance = "spterm", .scratchkey = 's', .isfloating = 1)
 	#elif SCRATCHPADS_PATCH
 	RULE(.instance = "sptermalt", .tags = SPTAG(0), .isfloating = 1)
 	RULE(.instance = "spterm", .tags = SPTAG(1), .isfloating = 1)
 	RULE(.instance = "spemacs", .tags = SPTAG(2), .isfloating = 1, .iscentered = 1)
-	RULE(.instance = "spspotify", .tags = SPTAG(3), .isfloating = 1, .isterminal = 1, .noswallow = 0)
-	RULE(.instance = "bitwarden", .tags = SPTAG(4), .isfloating = 1, .iscentered = 1)
-	RULE(.instance = "emacsclient", .tags = SPTAG(5), .isfloating = 1, .iscentered = 1)
+	RULE(.instance = "spspotify", .tags = SPTAG(3), .isfloating = 1, .isterminal = 1, .floatpos = "0x 0y 700W 700H")
+	RULE(.instance = "bitwarden", .tags = SPTAG(4), .isfloating = 1, .iscentered = 1, .floatpos = "0x 0y 900W 700H")
 	#endif // SCRATCHPADS_PATCH
 };
 
