@@ -405,7 +405,13 @@ static const char *layoutmenu_cmd = "layoutmenu.sh";
 
 #if COOL_AUTOSTART_PATCH
 static const char *const autostart[] = {
-	"dwmblocks", NULL,
+	#if EXTERNALKEY
+	"sh","-c", "sxhkd -c $XDG_CONFIG_HOME/sxhkd/sxhkdrc-dwmf", NULL,
+	#endif // EXTERNALKEY
+	/* "st", NULL, */
+	"sh", "-c", "dwmblocks", NULL,
+	/* "remaps", NULL, */
+	"skippy-xd", "--start-daemon", NULL,
 	NULL /* terminate */
 };
 #endif // COOL_AUTOSTART_PATCH
@@ -584,7 +590,7 @@ static const BarRule barrules[] = {
 	{ -1,        0,     BAR_ALIGN_LEFT,   width_taggrid,            draw_taggrid,           click_taggrid,           NULL,                    "taggrid" },
 	#endif // BAR_TAGGRID_PATCH
 	#if BAR_SYSTRAY_PATCH
-	{  0,        1,     BAR_ALIGN_RIGHT,  width_systray,            draw_systray,           click_systray,           NULL,                    "systray" },
+	{  0,        0,     BAR_ALIGN_RIGHT,  width_systray,            draw_systray,           click_systray,           NULL,                    "systray" },
 	#endif // BAR_SYSTRAY_PATCH
 	#if BAR_LTSYMBOL_PATCH
 	{ -1,        0,     BAR_ALIGN_LEFT,   width_ltsymbol,           draw_ltsymbol,          click_ltsymbol,          NULL,                    "layout" },
@@ -933,7 +939,7 @@ static const Key keys[] = {
 static const Key keys[] = {
 	/* modifier                     key            function                argument */
 	#if KEYMODES_PATCH
-	{ MODKEY,                       XK_bracketleft, setkeymode,             {.ui = COMMANDMODE} },
+	{ MODKEY,                       XK_bracketleft, setkeymode,            {.ui = COMMANDMODE} },
 	#endif // KEYMODES_PATCH
 	{ MODKEY|ShiftMask,             XK_Return,     spawn,                  {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return,     spawn,                  {.v = termcmd } },
@@ -1033,22 +1039,22 @@ static const Key keys[] = {
 	#endif // INSETS_PATCH
 	{ MODKEY,                       XK_space,     zoom,                   {0} },
 	#if VANITYGAPS_PATCH
-	{ MODKEY|Mod1Mask,              XK_u,          incrgaps,               {.i = +1 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_u,          incrgaps,               {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_i,          incrigaps,              {.i = +1 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_i,          incrigaps,              {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_o,          incrogaps,              {.i = +1 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_o,          incrogaps,              {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_6,          incrihgaps,             {.i = +1 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_6,          incrihgaps,             {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_7,          incrivgaps,             {.i = +1 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_7,          incrivgaps,             {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_8,          incrohgaps,             {.i = +1 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_8,          incrohgaps,             {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_9,          incrovgaps,             {.i = +1 } },
-	{ MODKEY|Mod1Mask|ShiftMask,    XK_9,          incrovgaps,             {.i = -1 } },
-	{ MODKEY|Mod1Mask,              XK_g,          togglegaps,             {0} },
-	{ MODKEY|Mod1Mask,              XK_BackSpace,  defaultgaps,            {0} },
+	{ MODKEY|ControlMask|Mod1Mask,              XK_u,          incrgaps,               {.i = +1 } },
+	{ MODKEY|ControlMask|Mod1Mask|ShiftMask,    XK_u,          incrgaps,               {.i = -1 } },
+	{ MODKEY|ControlMask|Mod1Mask,              XK_i,          incrigaps,              {.i = +1 } },
+	{ MODKEY|ControlMask|Mod1Mask|ShiftMask,    XK_i,          incrigaps,              {.i = -1 } },
+	{ MODKEY|ControlMask|Mod1Mask,              XK_o,          incrogaps,              {.i = +1 } },
+	{ MODKEY|ControlMask|Mod1Mask|ShiftMask,    XK_o,          incrogaps,              {.i = -1 } },
+	{ MODKEY|ControlMask|Mod1Mask,              XK_c,          incrihgaps,             {.i = +1 } },
+	{ MODKEY|ControlMask|Mod1Mask|ShiftMask,    XK_c,          incrihgaps,             {.i = -1 } },
+	{ MODKEY|ControlMask|Mod1Mask,              XK_m,          incrivgaps,             {.i = +1 } },
+	{ MODKEY|ControlMask|Mod1Mask|ShiftMask,    XK_m,          incrivgaps,             {.i = -1 } },
+	{ MODKEY|ControlMask|Mod1Mask,              XK_8,          incrohgaps,             {.i = +1 } },
+	{ MODKEY|ControlMask|Mod1Mask|ShiftMask,    XK_8,          incrohgaps,             {.i = -1 } },
+	{ MODKEY|ControlMask|Mod1Mask,              XK_9,          incrovgaps,             {.i = +1 } },
+	{ MODKEY|ControlMask|Mod1Mask|ShiftMask,    XK_9,          incrovgaps,             {.i = -1 } },
+	{ MODKEY|ControlMask|Mod1Mask,              XK_g,          togglegaps,             {0} },
+	{ MODKEY|ControlMask|Mod1Mask,              XK_BackSpace,  defaultgaps,            {0} },
 	#endif // VANITYGAPS_PATCH
 	#if ALT_TAB_PATCH
 	{ Mod1Mask,                     XK_Tab,        alttabstart,            {0} },
@@ -1080,7 +1086,7 @@ static const Key keys[] = {
 	{ MODKEY|Mod4Mask|ShiftMask,    XK_Right,      shiftswaptags,          { .i = +1 } },
 	#endif // SHIFTSWAPTAGS_PATCH
 	#if BAR_WINTITLEACTIONS_PATCH
-	{ MODKEY|ControlMask,           XK_z,          showhideclient,         {0} },
+	{ MODKEY,                       XK_z,          showhideclient,         {0} },
 	#endif // BAR_WINTITLEACTIONS_PATCH
 	{ MODKEY,                       XK_q,          killclient,             {0} },
 	#if KILLUNSEL_PATCH
@@ -1125,11 +1131,11 @@ static const Key keys[] = {
 	// { MODKEY,                       XK_space,      setlayout,              {0} },
 	{ MODKEY|ShiftMask,             XK_space,      togglefloating,         {0} },
 	#if MAXIMIZE_PATCH
-	{ MODKEY|ControlMask|ShiftMask, XK_h,          togglehorizontalmax,    {0} },
-	{ MODKEY|ControlMask|ShiftMask, XK_l,          togglehorizontalmax,    {0} },
-	{ MODKEY|ControlMask|ShiftMask, XK_j,          toggleverticalmax,      {0} },
-	{ MODKEY|ControlMask|ShiftMask, XK_k,          toggleverticalmax,      {0} },
-	{ MODKEY|ControlMask,           XK_m,          togglemax,              {0} },
+	{ MODKEY|Mod1Mask|ShiftMask, XK_h,          togglehorizontalmax,    {0} },
+	{ MODKEY|Mod1Mask|ShiftMask, XK_l,          togglehorizontalmax,    {0} },
+	{ MODKEY|Mod1Mask|ShiftMask, XK_j,          toggleverticalmax,      {0} },
+	{ MODKEY|Mod1Mask|ShiftMask, XK_k,          toggleverticalmax,      {0} },
+	{ MODKEY|Mod1Mask,           XK_m,          togglemax,              {0} },
 	#endif // MAXIMIZE_PATCH
 	#if NO_MOD_BUTTONS_PATCH
 	{ MODKEY|ShiftMask,             XK_Escape,     togglenomodbuttons,     {0} },
@@ -1162,7 +1168,7 @@ static const Key keys[] = {
 	{ MODKEY|ControlMask,           XK_f,          fullscreen,             {0} },
 	#endif // FULLSCREEN_PATCH
 	#if STICKY_PATCH
-	{ MODKEY|ShiftMask,             XK_s,          togglesticky,           {0} },
+	{ MODKEY,                       XK_s,          togglesticky,           {0} },
 	#endif // STICKY_PATCH
 	#if SCRATCHPAD_ALT_1_PATCH
 	{ MODKEY,                       XK_minus,      scratchpad_show,        {0} },
@@ -1275,42 +1281,42 @@ static const Key keys[] = {
 	 * which is not always readily available. Refer to the patch wiki for more details. */
 	/* Client position is limited to monitor window area */
 	{ Mod3Mask,                     XK_u,            floatpos,               {.v = "-26x -26y" } }, // ↖
-	{ Mod3Mask,                     XK_i,            floatpos,               {.v = "  0x -26y" } }, // ↑
-	{ Mod3Mask,                     XK_o,            floatpos,               {.v = " 26x -26y" } }, // ↗
-	{ Mod3Mask,                     XK_j,            floatpos,               {.v = "-26x   0y" } }, // ←
+	{ Mod3Mask,                     XK_k,            floatpos,               {.v = "  0x -26y" } }, // ↑
+	{ Mod3Mask,                     XK_i,            floatpos,               {.v = " 26x -26y" } }, // ↗
+	{ Mod3Mask,                     XK_h,            floatpos,               {.v = "-26x   0y" } }, // ←
 	{ Mod3Mask,                     XK_l,            floatpos,               {.v = " 26x   0y" } }, // →
 	{ Mod3Mask,                     XK_m,            floatpos,               {.v = "-26x  26y" } }, // ↙
-	{ Mod3Mask,                     XK_comma,        floatpos,               {.v = "  0x  26y" } }, // ↓
-	{ Mod3Mask,                     XK_period,       floatpos,               {.v = " 26x  26y" } }, // ↘
+	{ Mod3Mask,                     XK_j,            floatpos,               {.v = "  0x  26y" } }, // ↓
+	{ Mod3Mask,                     XK_comma,        floatpos,               {.v = " 26x  26y" } }, // ↘
 	/* Absolute positioning (allows moving windows between monitors) */
 	{ Mod3Mask|ControlMask,         XK_u,            floatpos,               {.v = "-26a -26a" } }, // ↖
-	{ Mod3Mask|ControlMask,         XK_i,            floatpos,               {.v = "  0a -26a" } }, // ↑
-	{ Mod3Mask|ControlMask,         XK_o,            floatpos,               {.v = " 26a -26a" } }, // ↗
-	{ Mod3Mask|ControlMask,         XK_j,            floatpos,               {.v = "-26a   0a" } }, // ←
+	{ Mod3Mask|ControlMask,         XK_k,            floatpos,               {.v = "  0a -26a" } }, // ↑
+	{ Mod3Mask|ControlMask,         XK_i,            floatpos,               {.v = " 26a -26a" } }, // ↗
+	{ Mod3Mask|ControlMask,         XK_h,            floatpos,               {.v = "-26a   0a" } }, // ←
 	{ Mod3Mask|ControlMask,         XK_l,            floatpos,               {.v = " 26a   0a" } }, // →
 	{ Mod3Mask|ControlMask,         XK_m,            floatpos,               {.v = "-26a  26a" } }, // ↙
-	{ Mod3Mask|ControlMask,         XK_comma,        floatpos,               {.v = "  0a  26a" } }, // ↓
-	{ Mod3Mask|ControlMask,         XK_period,       floatpos,               {.v = " 26a  26a" } }, // ↘
+	{ Mod3Mask|ControlMask,         XK_j,            floatpos,               {.v = "  0a  26a" } }, // ↓
+	{ Mod3Mask|ControlMask,         XK_comma,        floatpos,               {.v = " 26a  26a" } }, // ↘
 	/* Resize client, client center position is fixed which means that client expands in all directions */
 	{ Mod3Mask|ShiftMask,           XK_u,            floatpos,               {.v = "-26w -26h" } }, // ↖
-	{ Mod3Mask|ShiftMask,           XK_i,            floatpos,               {.v = "  0w -26h" } }, // ↑
-	{ Mod3Mask|ShiftMask,           XK_o,            floatpos,               {.v = " 26w -26h" } }, // ↗
-	{ Mod3Mask|ShiftMask,           XK_j,            floatpos,               {.v = "-26w   0h" } }, // ←
-	{ Mod3Mask|ShiftMask,           XK_k,            floatpos,               {.v = "800W 800H" } }, // ·
+	{ Mod3Mask|ShiftMask,           XK_k,            floatpos,               {.v = "  0w -26h" } }, // ↑
+	{ Mod3Mask|ShiftMask,           XK_i,            floatpos,               {.v = " 26w -26h" } }, // ↗
+	{ Mod3Mask|ShiftMask,           XK_h,            floatpos,               {.v = "-26w   0h" } }, // ←
+	{ Mod3Mask|ShiftMask,           XK_c,            floatpos,               {.v = "800W 800H" } }, // ·
 	{ Mod3Mask|ShiftMask,           XK_l,            floatpos,               {.v = " 26w   0h" } }, // →
 	{ Mod3Mask|ShiftMask,           XK_m,            floatpos,               {.v = "-26w  26h" } }, // ↙
-	{ Mod3Mask|ShiftMask,           XK_comma,        floatpos,               {.v = "  0w  26h" } }, // ↓
-	{ Mod3Mask|ShiftMask,           XK_period,       floatpos,               {.v = " 26w  26h" } }, // ↘
+	{ Mod3Mask|ShiftMask,           XK_j,            floatpos,               {.v = "  0w  26h" } }, // ↓
+	{ Mod3Mask|ShiftMask,           XK_comma,       floatpos,               {.v = " 26w  26h" } }, // ↘
 	/* Client is positioned in a floating grid, movement is relative to client's current position */
-	{ Mod3Mask|Mod1Mask,            XK_u,            floatpos,               {.v = "-1p -1p" } }, // ↖
-	{ Mod3Mask|Mod1Mask,            XK_i,            floatpos,               {.v = " 0p -1p" } }, // ↑
-	{ Mod3Mask|Mod1Mask,            XK_o,            floatpos,               {.v = " 1p -1p" } }, // ↗
-	{ Mod3Mask|Mod1Mask,            XK_j,            floatpos,               {.v = "-1p  0p" } }, // ←
-	{ Mod3Mask|Mod1Mask,            XK_k,            floatpos,               {.v = " 0p  0p" } }, // ·
-	{ Mod3Mask|Mod1Mask,            XK_l,            floatpos,               {.v = " 1p  0p" } }, // →
-	{ Mod3Mask|Mod1Mask,            XK_m,            floatpos,               {.v = "-1p  1p" } }, // ↙
-	{ Mod3Mask|Mod1Mask,            XK_comma,        floatpos,               {.v = " 0p  1p" } }, // ↓
-	{ Mod3Mask|Mod1Mask,            XK_period,       floatpos,               {.v = " 1p  1p" } }, // ↘
+	{ Mod3Mask|Mod4Mask,            XK_u,            floatpos,               {.v = "-1p -1p" } }, // ↖
+	{ Mod3Mask|Mod4Mask,            XK_k,            floatpos,               {.v = " 0p -1p" } }, // ↑
+	{ Mod3Mask|Mod4Mask,            XK_i,            floatpos,               {.v = " 1p -1p" } }, // ↗
+	{ Mod3Mask|Mod4Mask,            XK_h,            floatpos,               {.v = "-1p  0p" } }, // ←
+	{ Mod3Mask|Mod4Mask,            XK_c,            floatpos,               {.v = " 0p  0p" } }, // ·
+	{ Mod3Mask|Mod4Mask,            XK_l,            floatpos,               {.v = " 1p  0p" } }, // →
+	{ Mod3Mask|Mod4Mask,            XK_m,            floatpos,               {.v = "-1p  1p" } }, // ↙
+	{ Mod3Mask|Mod4Mask,            XK_j,            floatpos,               {.v = " 0p  1p" } }, // ↓
+	{ Mod3Mask|Mod4Mask,            XK_comma,        floatpos,               {.v = " 1p  1p" } }, // ↘
 	#endif // FLOATPOS_PATCH
 	#if SETBORDERPX_PATCH
 	{ MODKEY|ControlMask,           XK_minus,      setborderpx,            {.i = -1 } },
@@ -1342,7 +1348,7 @@ static const Key keys[] = {
 	{ 0,                            XF86XK_WLAN,              spawn,  SHCMD(TERM " -e nmtui") },
 	// { 0,                            XF86XK_Tools,             spawn,  SHCMD("pamixer --allow-boost -i 5") },
 	{ 0,                            XF86XK_Search,            spawn,  SHCMD("dmenu_run") },
-	{ 0,                            XF86XK_LaunchA,           spawn,  SHCMD("skippy-xd")},
+	{ 0,                            XF86XK_LaunchA,           spawn,  SHCMD("skippy-xd --toggle-window-picker")},
 	{ 0,                            XF86XK_Explorer,          spawn,  SHCMD("$BROWSER") },
 	#endif // DEV_T440P
 	TAGKEYS(                        XK_1,                                  0)
