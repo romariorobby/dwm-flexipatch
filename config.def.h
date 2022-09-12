@@ -1398,14 +1398,16 @@ static const Button buttons[] = {
 	#endif // BAR_WINTITLEACTIONS_PATCH
 	{ ClkWinTitle,          0,                   Button2,        zoom,           {0} },
 	#if BAR_STATUSCMD_PATCH && BAR_DWMBLOCKS_PATCH
-	{ ClkStatusText,        0,                   Button1,        sigstatusbar,   {.i = 1 } },
-	{ ClkStatusText,        0,                   Button2,        sigstatusbar,   {.i = 2 } },
-	{ ClkStatusText,        0,                   Button3,        sigstatusbar,   {.i = 3 } },
-	{ ClkStatusText,        0,                   Button4,        sigstatusbar,   {.i = 4 } },
-	{ ClkStatusText,        0,                   Button5,        sigstatusbar,   {.i = 5 } },
+	{ ClkStatusText,        0,                   Button1,        sigstatusbar,   {.i = 1 } }, // LEFT
+	{ ClkStatusText,        0,                   Button2,        sigstatusbar,   {.i = 2 } }, // MIDDLE
+	{ ClkStatusText,        0,                   Button3,        sigstatusbar,   {.i = 3 } }, // RIGHT
+	{ ClkStatusText,        0,                   Button4,        sigstatusbar,   {.i = 4 } }, // SCROLL UP
+	{ ClkStatusText,        0,                   Button5,        sigstatusbar,   {.i = 5 } }, // SCROLL DOWN
 	{ ClkStatusText,        ShiftMask,           Button1,        sigstatusbar,   {.i = 6 } }, // Shift + Left
 	{ ClkStatusText,        ShiftMask,           Button2,        sigstatusbar,   {.i = 7 } }, // Shift + Middle
 	{ ClkStatusText,        ShiftMask,           Button3,        sigstatusbar,   {.i = 8 } }, // Shift + Right
+	{ ClkStatusText,        ShiftMask,           Button4,        sigstatusbar,   {.i = 9 } }, // Shift + Scrollup
+	{ ClkStatusText,        ShiftMask,           Button5,        sigstatusbar,   {.i = 10 } }, // Shift + Scrolldown
 	#elif BAR_STATUSCMD_PATCH
 	{ ClkStatusText,        0,                   Button1,        spawn,          {.v = statuscmd } },
 	{ ClkStatusText,        0,                   Button2,        spawn,          {.v = statuscmd } },
