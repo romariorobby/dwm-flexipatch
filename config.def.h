@@ -1157,8 +1157,9 @@ static const Key keys[] = {
 	{ MODKEY|Mod1Mask,              XK_4,          togglescratch,          {.ui = 3 } },
 	{ MODKEY|Mod1Mask,              XK_5,          togglescratch,          {.ui = 4 } },
 	{ MODKEY|Mod1Mask,              XK_6,          togglescratch,          {.ui = 5 } },
-	{ MODKEY|ControlMask,           XK_grave,      setscratch,             {.ui = 0 } },
-	{ MODKEY|ShiftMask,             XK_grave,      removescratch,          {.ui = 0 } },
+	{ MODKEY|Mod1Mask,              XK_grave,      togglescratch,          {.ui = 9 } },
+	{ MODKEY|Mod1Mask,              XK_space,      setscratch,             {.ui = 9 } },
+	{ MODKEY|ShiftMask|Mod1Mask,    XK_space,      removescratch,          {.ui = 0 } },
 	#endif // SCRATCHPADS_PATCH | RENAMED_SCRATCHPADS_PATCH
 	#if UNFLOATVISIBLE_PATCH
 	{ MODKEY|Mod4Mask,              XK_space,      unfloatvisible,         {0} },
@@ -1646,6 +1647,8 @@ static const Signal signals[] = {
 	#endif // MAXIMIZE_PATCH
 	#if SCRATCHPADS_PATCH && !RENAMED_SCRATCHPADS_PATCH
 	{ "togglescratch",           togglescratch },
+	{ "setscratch",              setscratch },
+	{ "removescratch",           removescratch },
 	#endif // SCRATCHPADS_PATCH
 	#if UNFLOATVISIBLE_PATCH
 	{ "unfloatvisible",          unfloatvisible },
