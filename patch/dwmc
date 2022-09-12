@@ -63,6 +63,10 @@ case $# in
 	setkeymode) ;&
 	switchtag) ;&
 	togglescratch) ;&
+	setscratch) ;&
+	removescratch)
+		signal $1 ui $2
+		;;
 	view)
 		signal $1 ui $2
 		;;
