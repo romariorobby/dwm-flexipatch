@@ -3,7 +3,8 @@
 #define TERM  "kitty"
 #define TERM_ALT  "st"
 #define TERMC_ALT  "St"
-#define BITWARDEN "bitwarden" // bitwarden-desktop
+#define BITWARDEN "bitwarden-desktop"
+#define DRAGONC "Dragon-drop"
 
 /* appearance */
 #if ROUNDED_CORNERS_PATCH
@@ -164,7 +165,7 @@ static void (*bartabmonfns[])(Monitor *) = { NULL /* , customlayoutfn */ };
 #if BAR_PANGO_PATCH
 static const char font[]                 = "monospace 10";
 #else
-static const char *fonts[]               = { "monospace:size=9", "Siji:size=10", "JoyPixels:size=10","FontAwesome:size=10" };
+static const char *fonts[]               = { "monospace:size=10", "Siji:size=10", "JoyPixels:size=10","FontAwesome:size=10" };
 #endif // BAR_PANGO_PATCH
 static const char dmenufont[]            = "monospace:size=10";
 
@@ -408,11 +409,12 @@ static const char *layoutmenu_cmd = "layoutmenu.sh";
 #if COOL_AUTOSTART_PATCH
 static const char *const autostart[] = {
 	#if EXTERNALKEY
-	"sh","-c", "sxhkd -c $XDG_CONFIG_HOME/sxhkd/sxhkdrc-dwmf", NULL,
+	"sh","-c", "sxhkd -c ${XDG_CONFIG_HOME:-$HOME/.config}/sxhkd/sxhkdrc-dwmf ${XDG_CONFIG_HOME:-$HOME/.config}/sxhkd/sxhkdrc-common", NULL,
 	#endif // EXTERNALKEY
 	/* "st", NULL, */
 	"sh", "-c", "dwmblocks", NULL,
-	/* "remaps", NULL, */
+	"dunst", NULL,
+	"remaps", NULL,
 	"skippy-xd", "--start-daemon", NULL,
 	NULL /* terminate */
 };
@@ -518,17 +520,16 @@ static const Rule rules[] = {
 	RULE(.wintype = WTYPE "TOOLBAR", .isfloating = 1)
 	RULE(.wintype = WTYPE "SPLASH", .isfloating = 1)
 	RULE(.title = "Event Tester", .iscentered = 1, .isfloating = 1, .isterminal = 0, .noswallow = 1)
-	RULE(.class = TERMC_ALT, .isterminal = 1)
-	RULE(.class = TERM, .isterminal = 1)
-	RULE(.class = "Gimp", .tags = 1 << 4)
-	RULE(.class = "Firefox", .tags = 1 << 7)
-	RULE(.class = "Brave-browser", .tags = 1 << 3)
-	RULE(.role = "pop-up", .isfloating = 1, .iscentered = 1)
-	RULE(.instance = "sb-popupg", .isfloating = 1, .iscentered = 1)
-	RULE(.class = "nmtuifloat", .isfloating = 1, .iscentered = 1, .floatpos = "0x 0y 700W 700H")
-	RULE(.class = "Dragon", .isfloating = 1, .iscentered = 1, .isterminal = 1, .noswallow = 1)
-	RULE(.title = "Picture in picture", .isfloating = 1, .iscentered = 1) /* Spicetify - Popuplyrics */
-	RULE(.instance = "mpvfloat", .isfloating = 1, .iscentered = 1, .isterminal = 1, .noswallow = 1) /* Use by dmenuhandler - mpv float */
+	// RULE(.class = TERMC_ALT, .isterminal = 1)
+	// RULE(.class = TERM, .isterminal = 1)
+	// RULE(.class = "Gimp", .tags = 1 << 4)
+	// RULE(.class = "Firefox", .tags = 1 << 7)
+	// RULE(.class = "Brave-browser", .tags = 1 << 3)
+	// RULE(.instance = "sb-popupg", .isfloating = 1, .iscentered = 1)
+	// RULE(.class = "nmtuifloat", .isfloating = 1, .iscentered = 1, .floatpos = "0x 0y 700W 700H") /* sb-internet */
+	RULE(.role = "pop-up", .isfloating = 1, .iscentered = 1) /* Chrome Dev tools */
+	RULE(.class = DRAGONC, .isfloating = 1, .iscentered = 1) //.isterminal = 1, .noswallow = 1) /* Dragon-drop program */
+	RULE(.title = "Picture in picture", .isfloating = 1, .iscentered = 1) /*[Spotify] Spicetify - Popuplyrics */
 	#if RENAMED_SCRATCHPADS_PATCH
 	RULE(.instance = "spterm", .scratchkey = 's', .isfloating = 1)
 	#elif SCRATCHPADS_PATCH
@@ -937,7 +938,7 @@ static const Key on_empty_keys[] = {
 #if EXTERNALKEY
 static const Key keys[] = {
 	// Leave here for not throwing error
-	{ MODKEY|ShiftMask|ControlMask|Mod1Mask|Mod3Mask,  XK_k,     spawn,                   SHCMD("killall sxhkd; notify-send 'sxhkd [dwmf]'; sxhkd -c ~/.config/sxhkd/sxhkdrc-dwmf &")},
+	{ MODKEY|ShiftMask|ControlMask|Mod1Mask|Mod3Mask,  XK_k,     spawn,                   SHCMD("killall sxhkd; notify-send 'sxhkd [dwmf]'; sxhkd -c ~/.config/sxhkd/sxhkdrc-dwmf ~/.config/sxhkd/sxhkdrc-common &")},
 	{ MODKEY|ControlMask|Mod1Mask,  XK_Return,     spawn,                   { .v = termcmd } },
 	{ MODKEY,                       XK_Tab,        view,                    {0} },
 };
