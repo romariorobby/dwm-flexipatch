@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=DWMF
+Name=DWMF (X11)
 Comment=Dynamic Windows Manager
 Exec=dwmf
 Icon=dwm
